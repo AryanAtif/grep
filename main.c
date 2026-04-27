@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include <fstream.h>
 
-int main (int agrc, char *agrv) 
+#include "grep.h"
+
+int main (int argc, char **argv) 
 {
-  if (agrc < 3) { printf ("Usage: ./grep [Options] Patterns [FILE]"); return 1;}
+  if (argc < 3) { printf ("Usage: ./grep [Options] Patterns [FILE]"); return 1;}
   
   char *options;
   char *pattern;
@@ -17,9 +18,10 @@ int main (int agrc, char *agrv)
   }                                               //        ^^^^^^^^^
   pattern = argv[1 + starting_cmd_index];         // ./grep [OPTIONS] Pattern [FILE]
                                                   //                  ^^^^^^^
-  file = argv[2 + starting_cmd_index];    // ./grep [OPTIONS] Pattern [FILE]
+  file = argv[2 + starting_cmd_index];            // ./grep [OPTIONS] Pattern [FILE]
                                                   //                          ^^^^^^
-
-    
+  
+  char *file_data = read_file(file);
+  printf ("The data read: %s", file_data);
   return 0;
 }
