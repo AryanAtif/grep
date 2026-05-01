@@ -28,3 +28,44 @@ char* read_file (char* filename)
   data_read[i] = '\0';
   return data_read;
 }
+
+char** break_into_lines (char* data)
+{
+  int number_of_lines = get_lines_count (data);
+  
+  char** data_line = malloc (sizeof (char*) * number_of_lines);
+  for (int i = 0; i < number_of_lines; i++) {data_line[i] = malloc (sizeof (char));}
+
+  int data_char_count = 0;
+  for (int i = 0; data[data_char_count] != '\0'; i++)
+  {
+    for (int j = 0; ; j++)
+    { 
+      if (data[data_char_count] == '\n')
+      {
+        data_line[i][j] = '\0';
+        data_char_count++;
+        break;
+      }
+      
+      data_line[i][j] = data[data_char_count];
+      data_line[i] = realloc (data_line, (j+1)*sizeof(char));
+      data_char_count++;
+    }
+  }
+}
+
+int get_lines_count (char* data)
+{
+  int lines_count = 0;
+
+  int i = 0;
+  while (data[i] != '\0')
+  {
+    if (data[i] == '\n') {lines_count++;}
+    i++;
+  }
+
+  return lines_count;
+}
+

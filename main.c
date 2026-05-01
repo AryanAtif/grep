@@ -22,6 +22,17 @@ int main (int argc, char **argv)
                                                   //                          ^^^^^^
   
   char *file_data = read_file(file);
-  printf ("The data read: %s", file_data);
+  printf ("The data read: \n%s", file_data);
+  
+  // break the file into separate line in an array.
+  char **file_line = break_into_lines (file_data);
+  printf ("its okay after breaking the file.\n");
+  int i = 0;
+  while (file_line[i] != NULL)
+  {
+    printf ("%s\n", file_line[i]);
+    i++;
+  }
+  // seek pattern
   return 0;
 }
