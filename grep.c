@@ -29,28 +29,35 @@ char* read_file (char* filename)
   return data_read;
 }
 
-char** break_into_lines (char* data)
+char** break_into_lines (char* data, int number_of_lines)
 {
-  int number_of_lines = get_lines_count (data);
-  
   char** data_line = malloc (sizeof (char*) * number_of_lines);
-  for (int i = 0; i < number_of_lines; i++) {data_line[i] = malloc (sizeof (char));}
+  if (data_line == NULL) {printf ("An error occured, memory could not be allocated.\n"); return NULL;}
+
+  for (int i = 0; i < number_of_lines; i++) {data_line[i] = malloc (sizeof (char)); if (data_line[i] == NULL) {printf ("An error occured, memory could not be allocated.\n"); return NULL;}}
 
   int data_char_count = 0;
-  for (int i = 0; data[data_char_count] != '\0'; i++)
+  int i = 0; 
+  while (data[data_char_count] != '\0' && i < number_of_lines)
   {
-    for (int j = 0; ; j++)
-    { 
-      if (data[data_char_count] == '\n')
+    int j = 0;
+    while (1)
+    {
+      data_line[i] = realloc (data_line[i], (j+2)*sizeof(char));
+      if (data_line[i] == NULL) {printf ("An error occured, memory could not be allocated.\n"); return NULL;}
+
+      if (data[data_char_count] == '\n' || data[data_char_count] == '\0')
       {
         data_line[i][j] = '\0';
         data_char_count++;
+        if (data[data_char_count] == '\0') {return data_line;}
+        i++;
         break;
       }
       
       data_line[i][j] = data[data_char_count];
-      data_line[i] = realloc (data_line, (j+1)*sizeof(char));
       data_char_count++;
+      j++;
     }
   }
 }
